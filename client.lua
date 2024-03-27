@@ -2,7 +2,7 @@ local playerDiscordNames = nil;
 local formatDisplayedName = "";
 local ignorePlayerNameDistance = false
 local playerNamesDist = 15
-local displayIDHeigheadtag = 1.2 --Heigheadtag of ID above players head(starts at center body mass)
+local displayIDHeight = 1.0 --Height of ID above players head(starts at center body mass)
 --Set Default Values for Colors
 local red = 255
 local green = 255
@@ -55,13 +55,13 @@ _menuPool = NativeUI.CreatePool()
 
 if Config.playerNameTitle then
 	local playerName = GetPlayerName(PlayerId())
-	headtagsMenu = NativeUI.CreateMenu(playerName, "Select a ~b~HeadTag ", Config.MenuPos.x, Config.MenuPos.y)
+	headtagsMenu = NativeUI.CreateMenu(playerName, "Select a ~b~GangTag ", Config.MenuPos.x, Config.MenuPos.y)
 	if Config.customMenuTexture then
 		local background = Sprite.New(Config.menutexture_fileName, "banner", 0, 0, 512, 128)
     	headtagsMenu:SetBannerSprite(background, true)		
 	end
 else
-	headtagsMenu = NativeUI.CreateMenu(Config.headTagMenuTitle, "Select a ~b~HeadTag ", Config.MenuPos.x, Config.MenuPos.y)	
+	headtagsMenu = NativeUI.CreateMenu(Config.headTagMenuTitle, "Select a ~b~GangTag ", Config.MenuPos.x, Config.MenuPos.y)	
 	if Config.customMenuTexture then
 		local background = Sprite.New(Config.menutexture_fileName, "banner", 0, 0, 512, 128)
     	headtagsMenu:SetBannerSprite(background, true)		
@@ -74,28 +74,41 @@ _menuPool:Add(headtagsMenu)
 local tagData = {} 
 
 
-function AddHeadtagMenuItem(menu, data)
-    local headtagItem = NativeUI.CreateItem("~y~[" .. data.id .. "] " .. data.tag, "Select HeadTag: " .. data.tag)
-    menu:AddItem(headtagItem)
 
-    headtagsMenu.OnItemSelect = function(sender, item, index)
-        local selectedTag = tagData[index].tag
-		TriggerServerEvent("JoeV2:HeadTags:setTag", selectedTag)  
-		print("Selected Tag: " .. selectedTag)
-    end
-end
-
-RegisterNetEvent("JoeV2:HeadTags:receiveData")
-AddEventHandler("JoeV2:HeadTags:receiveData", function(receivedTagData)
+RegisterNetEvent("JoeV2:GangTags:receiveData")
+AddEventHandler("JoeV2:GangTags:receiveData", function(receivedTagData)
     tagData = receivedTagData or {}
     if #tagData > 0 then
         headtagsMenu:Clear()
+        local hideTagItem = NativeUI.CreateItem("Hide GangTag ", "Hide your currently selected GangTag")
+		hideTagItem:RightLabel(">")
+        headtagsMenu:AddItem(hideTagItem)
+        local hideAllTagsItem = NativeUI.CreateItem("Hide All GangTags", "Hide all GangTags")
+		hideAllTagsItem:RightLabel(">")
+        headtagsMenu:AddItem(hideAllTagsItem)
         for _, data in ipairs(tagData) do
-            AddHeadtagMenuItem(headtagsMenu, data)
+            local headtagItem = NativeUI.CreateItem("~y~[" .. data.id .. "] " .. data.tag, "Select HeadTag: " .. data.tag)
+            headtagsMenu:AddItem(headtagItem)
         end
-		headtagsMenu:Visible(not headtagsMenu:Visible())
+        headtagsMenu.OnItemSelect = function(sender, item, index)
+			local value = false
+            if index == 1 then
+				ExecuteCommand("gang-tag-toggle")
+                print("Tag hidden")
+            elseif index == 2 then
+				ExecuteCommand("gang-tags-toggle")
+                print("All tags hidden")
+            else
+                local selectedTag = tagData[index - 2].tag 
+                TriggerServerEvent("JoeV2:GangTags:setTag", selectedTag)
+                print("Selected Tag: " .. selectedTag)
+            end
+        end
+
+        headtagsMenu:RefreshIndex()
+        headtagsMenu:Visible(not headtagsMenu:Visible())
     else
-		print("no tags available")
+        print("No tags available")
     end
 end)
 
@@ -116,15 +129,18 @@ AddEventHandler("ID:HideTag", function(arr, error)
 	hideTags = arr; 
 end)
 
-RegisterNetEvent("headtag:SetToHUD")
-AddEventHandler("headtag:SetToHUD", function (headtag)
-	exports['Badssentials']:setPlayerHeadTagGui(headtag)
+RegisterNetEvent("HT:SetToHUD")
+AddEventHandler("HT:SetToHUD", function (ht)
+	exports['Badssentials']:setPlayerHeadTagGui(ht)
 end)
 
+RegisterNetEvent("GT:SetToHUD")
+AddEventHandler("GT:SetToHUD", function (pGT)
+	exports['Badssentials']:setPlayerGangTagGui(pGT)
+end)
 
-
-RegisterNetEvent("ID:Tags-Toggle:HeadTags")
-AddEventHandler("ID:Tags-Toggle:HeadTags", function(val, error)
+RegisterNetEvent("ID:Tags-Toggle:GangTags")
+AddEventHandler("ID:Tags-Toggle:GangTags", function(val, error)
 	if val then
 		hideAll = true
 	else
@@ -132,13 +148,13 @@ AddEventHandler("ID:Tags-Toggle:HeadTags", function(val, error)
 	end
 end)
 
-RegisterNetEvent("ID:Tag-Toggle:HeadTags")
-AddEventHandler("ID:Tag-Toggle:HeadTags", function(arr, error)
+RegisterNetEvent("ID:Tag-Toggle:GangTags")
+AddEventHandler("ID:Tag-Toggle:GangTags", function(arr, error)
 	hidePrefix = arr
 end)
 
-RegisterNetEvent("HeadTags:Server:GetDiscordName:Return")
-AddEventHandler("HeadTags:Server:GetDiscordName:Return", function(serverId, discordUsername, format, useDiscordName)
+RegisterNetEvent("GangTags:Server:GetDiscordName:Return")
+AddEventHandler("GangTags:Server:GetDiscordName:Return", function(serverId, discordUsername, format, useDiscordName)
 	if (useDiscordName) then 
 		if playerDiscordNames == nil then 
 			playerDiscordNames = {};
@@ -148,8 +164,8 @@ AddEventHandler("HeadTags:Server:GetDiscordName:Return", function(serverId, disc
 	formatDisplayedName = format;
 end)
 
-RegisterNetEvent("GetStaffID:StaffStr:ReturnHeadTags")
-AddEventHandler("GetStaffID:StaffStr:ReturnHeadTags", function(arr, activeTagTrack, error)
+RegisterNetEvent("GetStaffID:StaffStr:ReturnGangTags")
+AddEventHandler("GetStaffID:StaffStr:ReturnGangTags", function(arr, activeTagTrack, error)
 	prefixes = arr
 	activeTagTracker = activeTagTrack
 	for k, v in pairs(activeTagTracker) do 
@@ -173,8 +189,8 @@ end
 Citizen.CreateThread(function()
 	-- The player has spawned, we gotta get their tag 
 	Wait(1000);
-	TriggerServerEvent('HeadTags:Server:GetTag'); 
-	TriggerServerEvent('HeadTags:Server:GetDiscordName');
+	TriggerServerEvent('GangTags:Server:GetTag'); 
+	TriggerServerEvent('GangTags:Server:GetDiscordName');
 end)
 
 colorIndex = 1;
@@ -208,7 +224,7 @@ function triggerTagUpdate()
 				local playName = GetPlayerName(GetPlayerFromServerId(GetPlayerServerId(id)))
 				if ((distance < playerNamesDist)) then
 					if not (ignorePlayerNameDistance) then
-						if (Config.RequiresLineOfSigheadtag) then 
+						if (Config.RequiresLineOfSight) then 
 							if (not HasEntityClearLosToEntity(PlayerPedId(), GetPlayerPed(id), 17) and (GetPlayerPed( id ) ~= GetPlayerPed( -1 )) ) then 
 								return; -- They cannot see this player
 							end
@@ -232,13 +248,13 @@ function triggerTagUpdate()
 											end
 											timer = 3000;
 										end
-										DrawText3D(x2, y2, z2 + displayIDHeigheadtag, tag .. "~b~" .. displayName)
+										DrawText3D(x2, y2, z2 + displayIDHeight, tag .. "~b~" .. displayName)
 									else 
-										DrawText3D(x2, y2, z2 + displayIDHeigheadtag, activeTag .. "~b~" .. displayName)
+										DrawText3D(x2, y2, z2 + displayIDHeight, activeTag .. "~b~" .. displayName)
 									end 
 								else
 									-- Don't show their ID tag with prefix then
-									DrawText3D(x2, y2, z2 + displayIDHeigheadtag, "~b~" .. displayName)
+									DrawText3D(x2, y2, z2 + displayIDHeight, "~b~" .. displayName)
 								end
 							end
 							prefixStr = ""
@@ -260,13 +276,13 @@ function triggerTagUpdate()
 											end
 											timer = 3000;
 										end
-										DrawText3D(x2, y2, z2 + displayIDHeigheadtag, tag .. "~w~" .. displayName)
+										DrawText3D(x2, y2, z2 + displayIDHeight, tag .. "~w~" .. displayName)
 									else 
-										DrawText3D(x2, y2, z2 + displayIDHeigheadtag, activeTag .. "~w~" .. displayName)
+										DrawText3D(x2, y2, z2 + displayIDHeight, activeTag .. "~w~" .. displayName)
 									end 
 								else
 									-- Don't show their ID tag with prefix then
-									DrawText3D(x2, y2, z2 + displayIDHeigheadtag, "~w~" .. displayName)
+									DrawText3D(x2, y2, z2 + displayIDHeight, "~w~" .. displayName)
 								end
 							end
 						end
