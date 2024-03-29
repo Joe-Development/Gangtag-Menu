@@ -55,21 +55,21 @@ _menuPool = NativeUI.CreatePool()
 
 if Config.playerNameTitle then
 	local playerName = GetPlayerName(PlayerId())
-	headtagsMenu = NativeUI.CreateMenu(playerName, "Select a ~b~GangTag ", Config.MenuPos.x, Config.MenuPos.y)
+	gangTagsMenu = NativeUI.CreateMenu(playerName, "Select a ~b~GangTag ", Config.MenuPos.x, Config.MenuPos.y)
 	if Config.customMenuTexture then
 		local background = Sprite.New(Config.menutexture_fileName, "banner", 0, 0, 512, 128)
-    	headtagsMenu:SetBannerSprite(background, true)		
+    	gangTagsMenu:SetBannerSprite(background, true)		
 	end
 else
-	headtagsMenu = NativeUI.CreateMenu(Config.headTagMenuTitle, "Select a ~b~GangTag ", Config.MenuPos.x, Config.MenuPos.y)	
+	gangTagsMenu = NativeUI.CreateMenu(Config.headTagMenuTitle, "Select a ~b~GangTag ", Config.MenuPos.x, Config.MenuPos.y)	
 	if Config.customMenuTexture then
 		local background = Sprite.New(Config.menutexture_fileName, "banner", 0, 0, 512, 128)
-    	headtagsMenu:SetBannerSprite(background, true)		
+    	gangTagsMenu:SetBannerSprite(background, true)		
 	end
 end
 
 
-_menuPool:Add(headtagsMenu)
+_menuPool:Add(gangTagsMenu)
 
 local tagData = {} 
 
@@ -79,18 +79,18 @@ RegisterNetEvent("JoeV2:GangTags:receiveData")
 AddEventHandler("JoeV2:GangTags:receiveData", function(receivedTagData)
     tagData = receivedTagData or {}
     if #tagData > 0 then
-        headtagsMenu:Clear()
+        gangTagsMenu:Clear()
         local hideTagItem = NativeUI.CreateItem("Hide GangTag ", "Hide your currently selected GangTag")
 		hideTagItem:RightLabel(">")
-        headtagsMenu:AddItem(hideTagItem)
+        gangTagsMenu:AddItem(hideTagItem)
         local hideAllTagsItem = NativeUI.CreateItem("Hide All GangTags", "Hide all GangTags")
 		hideAllTagsItem:RightLabel(">")
-        headtagsMenu:AddItem(hideAllTagsItem)
+        gangTagsMenu:AddItem(hideAllTagsItem)
         for _, data in ipairs(tagData) do
             local headtagItem = NativeUI.CreateItem("~y~[" .. data.id .. "] " .. data.tag, "Select HeadTag: " .. data.tag)
-            headtagsMenu:AddItem(headtagItem)
+            gangTagsMenu:AddItem(headtagItem)
         end
-        headtagsMenu.OnItemSelect = function(sender, item, index)
+        gangTagsMenu.OnItemSelect = function(sender, item, index)
 			local value = false
             if index == 1 then
 				ExecuteCommand("gang-tag-toggle")
@@ -105,8 +105,8 @@ AddEventHandler("JoeV2:GangTags:receiveData", function(receivedTagData)
             end
         end
 
-        headtagsMenu:RefreshIndex()
-        headtagsMenu:Visible(not headtagsMenu:Visible())
+        gangTagsMenu:RefreshIndex()
+        gangTagsMenu:Visible(not gangTagsMenu:Visible())
     else
         print("No tags available")
     end
@@ -129,15 +129,7 @@ AddEventHandler("ID:HideTag", function(arr, error)
 	hideTags = arr; 
 end)
 
-RegisterNetEvent("HT:SetToHUD")
-AddEventHandler("HT:SetToHUD", function (ht)
-	exports['Badssentials']:setPlayerHeadTagGui(ht)
-end)
 
-RegisterNetEvent("GT:SetToHUD")
-AddEventHandler("GT:SetToHUD", function (pGT)
-	exports['Badssentials']:setPlayerGangTagGui(pGT)
-end)
 
 RegisterNetEvent("ID:Tags-Toggle:GangTags")
 AddEventHandler("ID:Tags-Toggle:GangTags", function(val, error)
