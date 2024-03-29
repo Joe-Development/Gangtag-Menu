@@ -1,30 +1,34 @@
 Config = {
-	Prefix = '^9[^1DEV-headtags^9] ^3',
+	Prefix = '^9[^1DEV-GangTags^9] ^3',
 	TagsForStaffOnly = false, -- "DiscordTagIDs.Use.Tag-Toggle"
 	ShowOwnTag = true, -- Should the tag also be shown for own user?
 	UseDiscordName = false,
 	ShowDiscordDescrim = false, -- Should it show Badger#0002 ?
 	RequiresLineOfSight = true, -- Requires the player be in their line of sight for tags to be shown
-	FormatDisplayName = "[{SERVER_ID}]",
+	FormatDisplayName = "",
     FortmatHiddenName = "",
 	UseKeyBind = false, -- It will only show on keybind press
 	KeyBind = 289, -- F2 -- USE https://docs.fivem.net/docs/game-references/controls/ for keycodes
 	roleList = { 
-		{'0', '~w~Civillian '},
-		{'1147775268577087549', "~p~Owner "}, -- -- done
+		{'0', ''},
+		{'1147775268577087549', "~b~OnlyFans"}, -- -- 		done 
+		{'1147775268577087549', "~p~Joe Development "}, -- -- 		done
+		{'1147775268577087549', "~r~O Block "}, -- -- 		done 
+		{'1147775268577087549', "~g~Hunters "}, -- -- 		done
+		{'1147775268577087549', "~y~Muraders "}, -- -- done
 	},
 
 	-- Headtag Menu Stuff
 	customMenuTexture = false,
 	menutexture_fileName = 'custommenu', -- will only work if [ customMenuTexture ] is set to true
 	playerNameTitle = false,
-	headTagMenuTitle = "~b~HeadTag ~y~Menu", -- only work if [ playerNameTitle ] is set to false
+	headTagMenuTitle = "~b~GangTag ~y~Menu", -- only work if [ playerNameTitle ] is set to false
 	MenuPos = {
 		x = 1400,
-		y = 100
+		y = 95
 	},
 	commandInfo = {
-		command = 'headtags',
+		command = 'gangtags',
 	},
 
 	-- type 0 = Defult chat notifications
@@ -32,8 +36,19 @@ Config = {
 	-- type 2 = codem Notify
 	-- type 3 = mythic Notify
 	-- type 4 = atlas Notify
-	notify_settings = {
+	notify_settings_gangtags = {
 		duration = 5000,
 		type = 4
+	},
+
+
+	
+	gangtag_hud = {
+		enabled = true,
+		x = 1.400,
+		y = 0.525,
+		fontSize = 0.35,
+		defaultText = "~t~gangtag: ~b~{GANGTAG}",
+		
 	}
 } 
