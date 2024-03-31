@@ -7,7 +7,7 @@ version '1.2.3'
 lua54 'yes'
 
 client_scripts {
-    '@NativeUI/NativeUI.lua', 
+    'dependencies/NativeUI.lua', 
     'config.lua',
     'client.lua',
     'hud.lua'
