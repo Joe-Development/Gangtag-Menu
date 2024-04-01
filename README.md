@@ -18,4 +18,3 @@
 3. Start the resource in your server.cfg file
 4. Enjoy :)
 
-<img src="https://files.catbox.moe/um0ek8.png">
