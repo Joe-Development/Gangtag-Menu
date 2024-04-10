@@ -55,15 +55,27 @@ _menuPool = NativeUI.CreatePool()
 
 if Config.playerNameTitle then
 	local playerName = GetPlayerName(PlayerId())
+	local RuntimeTXD = CreateRuntimeTxd('Custom_Menu_Head_2')
+    local Object = CreateDui(Config.GangTagMenuImage, 512, 128)
+    _G.Object = Object
+    local TextureThing = GetDuiHandle(Object)
+    local Texture = CreateRuntimeTextureFromDuiHandle(RuntimeTXD, 'Custom_Menu_Head_2', TextureThing)
+    Menuthing = "Custom_Menu_Head_2"
 	gangTagsMenu = NativeUI.CreateMenu(playerName, "Select a ~b~GangTag ", Config.MenuPos.x, Config.MenuPos.y)
-	if Config.customMenuTexture then
-		local background = Sprite.New(Config.menutexture_fileName, "banner", 0, 0, 512, 128)
+	if Config.useGangTagMenuImage then
+		local background = Sprite.New(Menuthing, Menuthing, 0, 0, 512, 128)
     	gangTagsMenu:SetBannerSprite(background, true)		
 	end
 else
+	local RuntimeTXD = CreateRuntimeTxd('Custom_Menu_Head_2')
+    local Object = CreateDui(Config.GangTagMenuImage, 512, 128)
+    _G.Object = Object
+    local TextureThing = GetDuiHandle(Object)
+    local Texture = CreateRuntimeTextureFromDuiHandle(RuntimeTXD, 'Custom_Menu_Head_2', TextureThing)
+    Menuthing = "Custom_Menu_Head_2"
 	gangTagsMenu = NativeUI.CreateMenu(Config.headTagMenuTitle, "Select a ~b~GangTag ", Config.MenuPos.x, Config.MenuPos.y)	
-	if Config.customMenuTexture then
-		local background = Sprite.New(Config.menutexture_fileName, "banner", 0, 0, 512, 128)
+	if Config.useGangTagMenuImage then
+		local background = Sprite.New(Menuthing, Menuthing, 0, 0, 512, 128)
     	gangTagsMenu:SetBannerSprite(background, true)		
 	end
 end
