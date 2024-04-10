@@ -18,14 +18,14 @@ Config = {
 		{'1147775268577087549', "~y~Muraders "}, -- -- done
 	},
 
-	-- Headtag Menu Stuff
-	customMenuTexture = false,
-	menutexture_fileName = 'custommenu', -- will only work if [ customMenuTexture ] is set to true
+	-- Gangtag Menu Stuff
+	useGangTagMenuImage = true,
+	GangTagMenuImage = 'https://cdn.discordapp.com/attachments/1161069645827166304/1227568593613488178/3015735403_preview_ezgif-5-3483880367.gif?ex=6628e157&is=66166c57&hm=c75633abd2eaa47ae76ee3b7b2ae5ec37116a65e3f0b3bba54b85c66bd0cf4e3&', -- [Custom banner IMGUR or GIPHY URLs go here (Includes Discord Image URLS) ]
 	playerNameTitle = false,
-	headTagMenuTitle = "~b~GangTag ~y~Menu", -- only work if [ playerNameTitle ] is set to false
+	headTagMenuTitle = "", -- only work if [ playerNameTitle ] is set to false
 	MenuPos = {
-		x = 1400,
-		y = 95
+		x = 1450,
+		y = 200
 	},
 	commandInfo = {
 		command = 'gangtags',
@@ -48,7 +48,7 @@ Config = {
 		x = 1.400,
 		y = 0.525,
 		fontSize = 0.35,
-		defaultText = "~t~gangtag: ~b~{GANGTAG}",
+		defaultText = "~t~Gangtag: ~b~{GANGTAG}",
 		
 	}
 } 
