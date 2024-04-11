@@ -26,9 +26,9 @@ function SendNotificationGang(recipient, message, type)
         end
     elseif Config.notify_settings_gangtags.type == 2 then 
         if type == "success" then 
-            TriggerClientEvent ('codem-notification:Create', recipient, message, 'success', 'success', Config.notify_settings_gangtags.duration)
+            TriggerClientEvent('codem-notification', recipient, message, 4000, 'check', options)
         elseif type == "error" then 
-            TriggerClientEvent ('codem-notification:Create', recipient, message, 'error', 'error', Config.notify_settings_gangtags.duration)
+            TriggerClientEvent('codem-notification', recipient, message, 4000, 'error', options)
 
         end
     elseif Config.notify_settings_gangtags.type == 3 then 
