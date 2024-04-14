@@ -6,7 +6,7 @@ Config = {
 	ShowDiscordDescrim = false, -- Should it show Badger#0002 ?
 	RequiresLineOfSight = true, -- Requires the player be in their line of sight for tags to be shown
 	FormatDisplayName = "",
-    FortmatHiddenName = "",
+        FortmatHiddenName = "",
 	roleList = { 
 		{'0', ''},
 		{'1147775268577087549', "~b~OnlyFans"}, -- -- 		done 
