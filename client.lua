@@ -296,3 +296,28 @@ function triggerTagUpdate()
 		end
 	end
 end 
+
+Citizen.CreateThread(function()
+    while true do
+        for i=0,99 do
+            N_0x31698aa80e0223f8(i)
+        end
+		if (Config.UseKeyBind) then
+			if (not Config.UseKeyBindToggle) then 
+				if (IsControlPressed(0, Config.KeyBind)) then 
+					triggerTagUpdate();
+				end
+			else 
+				if (IsControlJustReleased(0, Config.KeyBind)) then 
+					showTags = not showTags;
+				end
+				if (showTags) then 
+					triggerTagUpdate();
+				end
+			end
+		else
+			triggerTagUpdate(); 
+		end
+        Citizen.Wait(0);
+    end
+end)
