@@ -202,7 +202,8 @@ AddEventHandler("JoeV2:GangTags:setTag", function(selectedTag)
             TriggerClientEvent("GetStaffID:StaffStr:ReturnGangTags", -1, prefixes, activeTagTracker, false)
 			if Config.gangtag_hud.enabled then
 				TriggerClientEvent('JD:gangtag:SetToHUD', source, prefixes[source][index])
-			end			
+			end
+			SendNotificationGang(source, "Your HeadTag has been changed to: " .. prefixes[source][index] .. " ", "success")
         else
             print("[ERROR] Selected headtag not found for player " .. source)
         end
