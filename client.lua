@@ -88,8 +88,19 @@ local tagData = {}
 
 
 RegisterNetEvent("JoeV2:GangTags:receiveData")
-AddEventHandler("JoeV2:GangTags:receiveData", function(receivedTagData)
+AddEventHandler("JoeV2:GangTags:receiveData", function(receivedTagData, args)
     tagData = receivedTagData or {}
+	if args then
+		args = tonumber(args)
+		if tagData[args] then
+			local selectedTag = tagData[args].tag
+			TriggerServerEvent("JoeV2:GangTags:setTag", selectedTag)
+			print("Selected Tag: " .. selectedTag)
+			return
+		else
+			return
+		end
+	end
     if #tagData > 0 then
         gangTagsMenu:Clear()
         local hideTagItem = NativeUI.CreateItem("Hide GangTag ", "Hide your currently selected GangTag")
