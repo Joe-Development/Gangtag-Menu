@@ -11,6 +11,10 @@
 - **/gang-tag-toggle**: Toggles the display of the player's prefix tag.
 - **/gang-tags-toggle**: Toggles all tags above other players for yourself (useful for streamers or taking pictures).
 
+
+#### Dependencies
+- Ensure you have the latest version of **Badger_Discord_API** installed.
+
 #### Installation
 1. Download GangTags.
 2. Extract the `.zip` file and place the folder in the `/resources/` directory of your FiveM server.
