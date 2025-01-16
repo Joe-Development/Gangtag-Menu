@@ -31,12 +31,12 @@ The main configuration file (`config.lua`) allows you to customize:
 
 ### Display Format
 You can customize the tag format using these variables:
-- `{HEADTAG}` - Player's active tag
+- `{GANGTAG}` - Player's active tag
 - `{SPEAKING}` - Speaking indicator color
 - `{SERVER_ID}` - Player's server ID
 
 Example:
 
 ```lua
-Config.FormatDisplayName = "{HEADTAG} {SPEAKING}[{SERVER_ID}]"
+Config.FormatDisplayName = "{GANGTAG} {SPEAKING}[{SERVER_ID}]"
 ```
