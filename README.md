@@ -1,22 +1,42 @@
-# GangTags
+# HeadTags System
+A FiveM resource that adds customizable head tags above players with role-based permissions.
 
----
+## Features
+- Ace-based headtags using ACE permissions
+- Configurable display format and height
+- Toggle individual or all headtags
+- Search functionality for tags
+- Speaking indicator changes color when players talk
+- Noclip compatibility
 
-### Version 1.0.4
-- Added support for GIFs in tags.
-- Improved menu smoothness for better usability.
-- Further updates are planned.
+## Dependencies
+- [ox_lib](https://github.com/overextended/ox_lib)
+- [RageUI](https://github.com/Joe-Development/Headtag-Menu/releases/download/release/RageUI.zip)
 
-#### Commands
-- **/gang-tag-toggle**: Toggles the display of the player's prefix tag.
-- **/gang-tags-toggle**: Toggles all tags above other players for yourself (useful for streamers or taking pictures).
+## Installation
+1. Download the latest release
+2. Extract to your resources folder
+3. Add to your `server.cfg`:
 
 
-#### Dependencies
-- Ensure you have the latest version of **Badger_Discord_API** installed.
+## Configuration
+The main configuration file (`config.lua`) allows you to customize:
 
-#### Installation
-1. Download GangTags.
-2. Extract the `.zip` file and place the folder in the `/resources/` directory of your FiveM server.
-3. Add the resource to your `server.cfg` file and start it.
-4. Enjoy!
+- Debug mode
+- Display format
+- Viewing distance
+- Menu positioning
+- Ace permissions
+- And more
+
+### Display Format
+You can customize the tag format using these variables:
+- `{HEADTAG}` - Player's active tag
+- `{SPEAKING}` - Speaking indicator color
+- `{SERVER_ID}` - Player's server ID
+
+Example:
+
+```lua
+Config.FormatDisplayName = "{HEADTAG} {SPEAKING}[{SERVER_ID}]"
+```
