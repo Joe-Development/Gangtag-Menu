@@ -32,10 +32,10 @@ Config.menu = {
 -- that they are there
 --[[
 	Lua Server Event that triggers the client to hide their headtag and server id
-	TriggerServerEvent("jd-headtags:server:noclip")
+	TriggerServerEvent("jd-gangtags:server:noclip")
 ]]
 Config.noclip = {
-	ace = "headtags.noclip",
+	ace = "gangtags.noclip",
 }
 
 
@@ -44,7 +44,7 @@ Config.noclip = {
 Config.AutoSetHighestRole = false
 
  -- The Ace permission for all tags.
-Config.allTags = 'headtags.all'
+Config.allTags = 'gangtags.all'
 
 -- The Last in the index will be the highest role.
 -- aka the highest role will be the last one in the table or the bottem one.
