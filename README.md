@@ -1,4 +1,4 @@
-# HeadTags System
+# Gangtag System
 A FiveM resource that adds customizable head tags above players with role-based permissions.
 
 ## Features

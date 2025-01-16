@@ -9,7 +9,7 @@ Config.ShowOwnTag = true
 -- {HEADTAG} is the player's headtag.
 -- {SPEAKING} is the player's speaking status aka colour.
 -- {SERVER_ID} is the server's ID.
-Config.FormatDisplayName = "{HEADTAG} {SPEAKING}[{SERVER_ID}]"
+Config.FormatDisplayName = "{GANGTAG} {SPEAKING}[{SERVER_ID}]"
 
 -- Display Height is the height of the headtag above the player.
 -- a higher value will be higher above the player and a lower value will be lower.

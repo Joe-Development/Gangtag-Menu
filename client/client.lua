@@ -113,7 +113,7 @@ local function TriggerTagUpdate()
                 local displayName = formatDisplayedName
                 local color = NetworkIsPlayerTalking(activePlayers[i]) and "~b~" or "~w~"
 
-                displayName = displayName:gsub("{HEADTAG}", activeTag):gsub("{SERVER_ID}", serverId):gsub("{SPEAKING}", color)
+                displayName = displayName:gsub("{GANGTAG}", activeTag):gsub("{SERVER_ID}", serverId):gsub("{SPEAKING}", color)
 
                 red = NetworkIsPlayerTalking(activePlayers[i]) and 0 or 255
                 green = NetworkIsPlayerTalking(activePlayers[i]) and 0 or 255
