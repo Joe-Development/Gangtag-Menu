@@ -101,7 +101,7 @@ local function TriggerTagUpdate()
 
                 if HasValue(hidePrefix, playName) then
                     if targetPed ~= playerPed or Config.ShowOwnTag then
-                        DrawText3D(targetCoords.x, targetCoords.y, targetCoords.z + displayIDHeight, "~w~[" .. serverId .. "]")
+                        DrawText3D(targetCoords.x, targetCoords.y, targetCoords.z + displayIDHeight, "")
                     end
                     goto continue
                 end
@@ -113,7 +113,7 @@ local function TriggerTagUpdate()
                 local displayName = formatDisplayedName
                 local color = NetworkIsPlayerTalking(activePlayers[i]) and "~b~" or "~w~"
 
-                displayName = displayName:gsub("{GANGTAG}", activeTag):gsub("{SERVER_ID}", serverId):gsub("{SPEAKING}", color)
+                displayName = displayName:gsub("{GANGTAG}", activeTag)
 
                 red = NetworkIsPlayerTalking(activePlayers[i]) and 0 or 255
                 green = NetworkIsPlayerTalking(activePlayers[i]) and 0 or 255

@@ -9,11 +9,11 @@ Config.ShowOwnTag = true
 -- {HEADTAG} is the player's headtag.
 -- {SPEAKING} is the player's speaking status aka colour.
 -- {SERVER_ID} is the server's ID.
-Config.FormatDisplayName = "{GANGTAG} {SPEAKING}[{SERVER_ID}]"
+Config.FormatDisplayName = "{GANGTAG}"
 
 -- Display Height is the height of the headtag above the player.
 -- a higher value will be higher above the player and a lower value will be lower.
-Config.DisplayHeight = 1.2
+Config.DisplayHeight = 1.1
 
 -- The distance you have to be within to see the headtag.
 Config.PlayerNamesDist = 15
@@ -49,8 +49,7 @@ Config.allTags = 'headtags.all'
 -- The Last in the index will be the highest role.
 -- aka the highest role will be the last one in the table or the bottem one.
 Config.roleList = {
-	{ ace = "headtags.member", label = "~g~Member"},
-	{ ace = "headtags.developer", label = "~b~Developer"},
-	{ ace = "headtags.staff", label = "~r~Staff"},
-	{ ace = "headtags.owner", label = "~p~Owner"},
+	{ ace = "gangtags.member", label = "~g~Grove Street"},
+	{ ace = "gangtags.developer", label = "~b~Ballas"},
+	{ ace = "gangtags.staff", label = "~r~Vinewood"},
 }
