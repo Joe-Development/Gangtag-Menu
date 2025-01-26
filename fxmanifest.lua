@@ -1,8 +1,8 @@
 fx_version 'cerulean'
 game 'gta5'
 author 'JoeV2@Freech\'s Development'
-description 'Headtag System'
-version '1.1.0'
+description 'Gangtag System'
+version '1.1.1'
 lua54 'yes'
 
 shared_scripts {
