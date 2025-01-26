@@ -165,10 +165,23 @@ end, false)
 function OpenGangtagMenu()
     if isMenuOpen then return end
 
+
+    local headtags = lib.callback.await('jd-gangtags:return-tags')
+
+    if not headtags or #headtags == 0 then
+        lib.notify({
+            title = 'Gangtag Menu',
+            description = 'You don\'t have access to any gangtags',
+            type = 'error',
+            position = 'center-right',
+            duration = 5000
+        })
+        return
+    end
+
     isMenuOpen = true
     searchQuery = ""
     RageUI.Visible(mainMenu, true)
-    local headtags = lib.callback.await('jd-gangtags:return-tags')
 
     Citizen.CreateThread(function()
         while isMenuOpen do
