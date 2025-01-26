@@ -132,10 +132,17 @@ AddEventHandler('jd-gangtags:server:getTags', function()
 
     prefixes[source] = roleAccess
 
-    if Config.AutoSetHighestRole then
-        activeTagTracker[source] = highestRole
+    if hasAnyPermission then
+        prefixes[source] = roleAccess
+
+        if Config.AutoSetHighestRole then
+            activeTagTracker[source] = highestRole
+        else
+            activeTagTracker[source] = defaultRole
+        end
     else
-        activeTagTracker[source] = hasAnyPermission and defaultRole or ""
+        prefixes[source] = {}
+        activeTagTracker[source] = ""
     end
 
     TriggerClientEvent("jd-gangtags:client:updateTags", -1, prefixes, activeTagTracker, false)
