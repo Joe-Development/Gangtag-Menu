@@ -145,8 +145,20 @@ Citizen.CreateThread(function()
     end
 end)
 
-local mainMenu = RageUI.CreateMenu("Gangtag Menu", "~b~Gangtag Menu | By JoeV2", 1400, 100, nil, nil, 255, 255, 255, 255)
+
+CreateThread(function()
+    if not Config.Custombanner.enabled then return end
+
+    local RuntimeTXD = CreateRuntimeTxd('gangtag:banner')
+    local Object = CreateDui(Config.Custombanner.url, 512, 128)
+
+    local dui = GetDuiHandle(Object)
+    CreateRuntimeTextureFromDuiHandle(RuntimeTXD, 'gangtag:banner', dui)
+end)
+
+local mainMenu = RageUI.CreateMenu("Gangtag Menu", "~b~Gangtag Menu | By JoeV2", 1400, 100, (Config.Custombanner.enabled and 'gangtag:banner' or nil), (Config.Custombanner.enabled and 'gangtag:banner' or nil), 255, 255, 255, 255)
 mainMenu:SetTotalItemsPerPage(8)
+mainMenu:DisplayGlare(Config.Menu.glare)
 
 
 mainMenu.Closed = function()

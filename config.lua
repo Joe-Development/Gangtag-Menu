@@ -5,6 +5,15 @@ Config.Debug = true
 -- If true, the player's own headtag will be shown.
 Config.ShowOwnTag = true
 
+Config.Custombanner = {
+	enabled = false,
+	url = "https://files.catbox.moe/yd0389.png",
+}
+
+Config.Menu = {
+	glare = false,
+}
+
 -- Format Display Name is the format of the player's headtag.
 -- {HEADTAG} is the player's headtag.
 -- {SPEAKING} is the player's speaking status aka colour.
