@@ -79,17 +79,12 @@ function ToggleTagsAll(source)
 end
 
 function GetActiveUserTag(src)
-	if activeTagTracker[tonumber(src)] ~= nil then
-		return activeTagTracker[tonumber(src)]
-	end
-	return nil
+	return activeTagTracker[src]
 end
 
+
 function GetUserTags(src)
-	if prefixes[tonumber(src)] ~= nil then
-		return prefixes[tonumber(src)]
-	end
-	return nil
+	return prefixes[src]
 end
 
 function SetUserTag(source, ind)
@@ -159,12 +154,12 @@ end)
 
 RegisterNetEvent('jd-gangtags:server:setTag')
 AddEventHandler('jd-gangtags:server:setTag', function(index)
-	local ped = source
-	local success = SetUserTag(ped, index)
+	local source = source
+	local success = SetUserTag(source, index)
 
 	if success then
-		local tagName = GetTagNameByIndex(ped, index)
-		lib.notify(ped, {
+		local tagName = GetTagNameByIndex(source, index)
+		lib.notify(source, {
 			title = 'GangTag',
 			description = 'Set your GangTag to ' .. RemovePrefixes(tagName),
 			type = 'success',
@@ -172,7 +167,7 @@ AddEventHandler('jd-gangtags:server:setTag', function(index)
 			duration = 5000,
 		})
 	else
-		lib.notify(ped, {
+		lib.notify(source, {
 			title = 'GangTag',
 			description = 'Failed to set GangTag',
 			type = 'error',
@@ -190,11 +185,6 @@ end)
 RegisterNetEvent('jd-gangtags:server:toggleAllTags')
 AddEventHandler('jd-gangtags:server:toggleAllTags', function()
     ToggleTagsAll(source)
-end)
-
-lib.callback.register('jd-gangtags:return-tags', function(source)
-    local tags = GetUserTags(source)
-    return tags
 end)
 
 RegisterNetEvent('jd-gangtags:server:noclip')

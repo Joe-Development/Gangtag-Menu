@@ -1,7 +1,5 @@
 local formatDisplayedName = Config.FormatDisplayName;
-local ignorePlayerNameDistance = false
-local playerNamesDist = Config.PlayerNamesDist
-local playerNamesDist2 = playerNamesDist * playerNamesDist
+local playerNamesDist = Config.PlayerNamesDist * Config.PlayerNamesDist
 local displayIDHeight = Config.DisplayHeight
 local isMenuOpen = false
 local searchQuery = ""
@@ -11,33 +9,31 @@ local hidePrefix = {}
 local hideTags = {}
 local activeTagTracker = {}
 local hideAll = false
-local red = 255
-local green = 255
-local blue = 255
 local noclip = {}
 
-function DrawText3D(x, y, z, text)
-    local onScreen, _x, _y = World3dToScreen2d(x, y, z)
-    if not onScreen then return end
+function DrawText3D(x,  y, z, text, size, font)
+    local camCoords = GetFinalRenderedCamCoord()
+    local distance = #(vec(x, y, z) - camCoords)
 
-    local dist = #(GetGameplayCamCoords() - vector3(x, y, z))
-    local scale = (1/dist) * 2 * (1/GetGameplayCamFov()) * 100
+    size = size or 1
+    font = font or 0
 
-    SetTextScale(0.0*scale, 0.55*scale)
-    SetTextFont(0)
+    local scale = (size / distance) * 2
+    local fov = (1 / GetGameplayCamFov()) * 100
+    scale = scale * fov
+
+    SetTextScale(0.0, 0.55 * scale)
+    SetTextFont(font)
     SetTextProportional(true)
-    SetTextColour(red, green, blue, 255)
-    SetTextDropshadow(0, 0, 0, 0, 255)
-    SetTextEdge(2, 0, 0, 0, 150)
-    SetTextDropShadow()
+    SetTextColour(255, 255, 255, 255)
     SetTextOutline()
+    BeginTextCommandDisplayText("STRING")
     SetTextCentre(true)
-    SetTextEntry("STRING")
-    AddTextComponentString(text)
-    DrawText(_x, _y)
+    AddTextComponentSubstringPlayerName(text)
+    SetDrawOrigin(x, y, z, 0)
+    EndTextCommandDisplayText(0.0, 0.0)
+    ClearDrawOrigin()
 end
-
-
 
 RegisterNetEvent("jd-gangtags:client:hideTag")
 AddEventHandler("jd-gangtags:client:hideTag", function(arr, error)
@@ -90,7 +86,7 @@ local function TriggerTagUpdate()
             local dx, dy, dz = playerCoords.x - targetCoords.x, playerCoords.y - targetCoords.y, playerCoords.z - targetCoords.z
             local distance2 = dx*dx + dy*dy + dz*dz
 
-            if distance2 < playerNamesDist2 and (not ignorePlayerNameDistance) then
+            if distance2 < playerNamesDist then
                 local playName = GetPlayerName(activePlayers[i])
 
                 if targetPed == playerPed and not Config.ShowOwnTag then
@@ -101,7 +97,7 @@ local function TriggerTagUpdate()
 
                 if HasValue(hidePrefix, playName) then
                     if targetPed ~= playerPed or Config.ShowOwnTag then
-                        DrawText3D(targetCoords.x, targetCoords.y, targetCoords.z + displayIDHeight, "")
+                        DrawText3D(targetCoords.x, targetCoords.y, targetCoords.z + displayIDHeight, "", 1, 0)
                     end
                     goto continue
                 end
@@ -115,11 +111,7 @@ local function TriggerTagUpdate()
 
                 displayName = displayName:gsub("{GANGTAG}", activeTag)
 
-                red = NetworkIsPlayerTalking(activePlayers[i]) and 0 or 255
-                green = NetworkIsPlayerTalking(activePlayers[i]) and 0 or 255
-                blue = NetworkIsPlayerTalking(activePlayers[i]) and 255 or 255
-
-                DrawText3D(targetCoords.x, targetCoords.y, targetCoords.z + displayIDHeight, color .. displayName)
+                DrawText3D(targetCoords.x, targetCoords.y, targetCoords.z + displayIDHeight, color .. displayName, 1, 0)
             end
             ::continue::
         end
@@ -128,16 +120,8 @@ end
 
 Citizen.CreateThread(function()
     local Wait = Citizen.Wait
-    local IsControlPressed = IsControlPressed
-    local IsControlJustReleased = IsControlJustReleased
 
     while true do
-        local maxPlayers = #GetActivePlayers()
-        for i = 0, maxPlayers do
-            ---@diagnostic disable-next-line: undefined-global
-            N_0x31698aa80e0223f8(i)
-        end
-
         if showTags then
             TriggerTagUpdate()
         end
@@ -178,7 +162,7 @@ function OpenGangtagMenu()
     if isMenuOpen then return end
 
 
-    local headtags = lib.callback.await('jd-gangtags:return-tags')
+    local headtags = Prefixes[GetPlayerServerId(PlayerId())]
 
     if not headtags or #headtags == 0 then
         lib.notify({
