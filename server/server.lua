@@ -140,7 +140,12 @@ AddEventHandler('jd-gangtags:server:getTags', function()
         activeTagTracker[source] = ""
     end
 
+	if Config.DontSetGangtagByDefault then
+		activeTagTracker[source] = ""
+	end
+
     TriggerClientEvent("jd-gangtags:client:updateTags", -1, prefixes, activeTagTracker, false)
+	Config.Hud.SetGangtagForHud(source, activeTagTracker[source] == "" and "N/A" or activeTagTracker[source])
 end)
 
 AddEventHandler('playerDropped', function()
@@ -159,6 +164,7 @@ AddEventHandler('jd-gangtags:server:setTag', function(index)
 
 	if success then
 		local tagName = GetTagNameByIndex(source, index)
+		Config.Hud.SetGangtagForHud(source, tagName)
 		lib.notify(source, {
 			title = 'GangTag',
 			description = 'Set your GangTag to ' .. RemovePrefixes(tagName),

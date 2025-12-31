@@ -47,6 +47,52 @@ Config.noclip = {
 	ace = "gangtags.noclip",
 }
 
+Config.Hud = {
+    -- Enable or disable the HUD system
+    enabled = false,
+
+    -- Select the active HUD resource
+    -- Make sure this matches a key in ResourceExports
+    type = 'nex-hud',
+
+    ResourceExports = {
+        ['nex-hud'] = {
+            UpdatePlayerGangtag = function(player, headtag)
+                exports['nex-hud']:updateHeadtags(player, headtag)
+            end,
+        },
+
+        -- Example for adding a new HUD:
+        -- ['my-custom-hud'] = {
+        --     UpdatePlayerGangtag = function(player, headtag)
+        --         exports['my-custom-hud']:setHeadtag(player, headtag)
+        --     end,
+        -- },
+    },
+
+	--[[
+		this is a HELPER function DO NOT EDIT!!!
+	]]
+    SetGangtagForHud = function(player, headtag)
+		local enabled = Config.Hud.enabled
+		if not enabled then return end
+
+		local hud = Config.Hud.type
+		local exports = Config.Hud.ResourceExports[hud]
+
+		if not exports then
+			print(('^2[HUD]^7 Hud "%s" is not defined in ResourceExports!'):format(hud))
+			return
+		end
+
+		if not exports.UpdatePlayerHeadtag then
+			print(('^2[HUD]^7  Hud "%s" does not have UpdatePlayerGangtag function!'):format(hud))
+			return
+		end
+
+		exports.UpdatePlayerHeadtag(player, headtag)
+	end
+}
 
 
 -- If true, the highest role will be set automatically.
@@ -54,6 +100,8 @@ Config.AutoSetHighestRole = false
 
  -- The Ace permission for all tags.
 Config.allTags = 'gangtags.all'
+
+Config.DontSetGangtagByDefault = true
 
 -- The Last in the index will be the highest role.
 -- aka the highest role will be the last one in the table or the bottem one.
